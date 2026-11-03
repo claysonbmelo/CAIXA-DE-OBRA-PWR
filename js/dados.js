@@ -14,49 +14,10 @@ const CHAVE_DIARIAS = "caixaObra_diarias";
 const CHAVE_LOCACOES_MAQUINARIO = "caixaObra_locacoes_maquinario";
 const CHAVE_PAGAMENTOS_MAQUINARIO = "caixaObra_pagamentos_maquinario";
 
-// Dados iniciais: usados somente na primeira utilização
-const clientesIniciais = [
-    {
-        id: "cliente-001",
-        nome: "Prefeitura Municipal",
-        documento: "00.000.000/0001-00",
-        telefone: "(31) 3333-3333",
-        email: "contato@prefeitura.com.br",
-        endereco: "Contagem - MG"
-    },
-    {
-        id: "cliente-002",
-        nome: "Construtora Horizonte",
-        documento: "11.111.111/0001-11",
-        telefone: "(31) 99999-9999",
-        email: "contato@horizonte.com.br",
-        endereco: "Betim - MG"
-    }
-];
 
-const obrasIniciais = [
-    {
-        id: "obra-001",
-        nome: "Escola Municipal Vila Nova",
-        clienteId: "cliente-001",
-        status: "Em andamento"
-    },
-    {
-        id: "obra-002",
-        nome: "Reforma da UBS Central",
-        clienteId: "cliente-001",
-        status: "Concluída"
-    },
-    {
-        id: "obra-003",
-        nome: "Centro Empresarial",
-        clienteId: "cliente-002",
-        status: "Em andamento"
-    }
-];
 
 // Recupera os dados salvos no navegador
-function recuperarDados(chave, dadosIniciais) {
+function recuperarDados(chave, dadosIniciais = []) {
     try {
         const dadosSalvos = localStorage.getItem(chave);
 
@@ -77,8 +38,8 @@ function recuperarDados(chave, dadosIniciais) {
 }
 
 // Arrays principais do sistema
-export let clientes = recuperarDados(CHAVE_CLIENTES, clientesIniciais);
-export let obras = recuperarDados(CHAVE_OBRAS, obrasIniciais);
+export let clientes = recuperarDados(CHAVE_CLIENTES, []);
+export let obras = recuperarDados(CHAVE_OBRAS, []);
 // Recupera os contratos salvos no navegador
 export let contratos = recuperarDados(CHAVE_CONTRATOS, []);
 // Recupera as movimentações financeiras salvas
@@ -202,11 +163,6 @@ export const nomesDasObras = obras.map((obra) => {
 // FILTER: seleciona as obras em andamento
 export const obrasEmAndamento = obras.filter((obra) => {
     return obra.status === "Em andamento";
-});
-
-// FIND: procura um cliente pelo nome
-const prefeitura = clientes.find((cliente) => {
-    return cliente.nome === "Prefeitura Municipal";
 });
 
 // Busca as obras de um cliente

@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de gestão financeira e operacional de obras.">
+
+    <title>Caixa de Obra | Gestão Inteligente</title>
+
+    <link rel="stylesheet" href="./style.css">
+
+<!-- Biblioteca de gráficos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+<!-- JavaScript principal do sistema -->
+<script type="module" src="./js/app.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- =========================================
+             MENU LATERAL
+        ========================================== -->
+        <aside class="sidebar" id="menu-lateral">
+
+            <div class="logo">
+                <h1>CAIXA<span>OBRA</span></h1>
+                <p>Gestão inteligente</p>
+            </div>
+
+
+            <nav aria-label="Menu principal">
+                <ul>
+
+                    <li>
+                        <a href="#painel" class="ativo" aria-current="page">
+                            Painel
+                        </a>
+                    </li>
+
+                    <li class="menu-item-expansivel">
+
+                        <button type="button" class="menu-expansivel" aria-expanded="true"
+                            aria-controls="submenu-clientes-obras">
+
+                            Clientes e Obras
+                            <span class="seta-menu">⌄</span>
+
+                        </button>
+
+                        <ul id="submenu-clientes-obras" class="submenu">
+
+                            <li>
+                                <a href="#clientes">Clientes</a>
+                            </li>
+
+                            <li>
+                                <a href="#obras">Obras</a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="#contratos">Contratos</a>
+                    </li>
+
+                    <li>
+                        <a href="#movimentacoes">Movimentações</a>
+                    </li>
+
+                    <!-- Módulos que serão implementados posteriormente -->
+
+                    <li class="menu-item-expansivel">
+
+                        <button type="button" class="menu-expansivel" aria-expanded="false"
+                            aria-controls="submenu-operacional">
+
+                            Operacional
+                            <span class="seta-menu">⌄</span>
+
+                        </button>
+
+                        <ul id="submenu-operacional" class="submenu" hidden>
+
+                            <li><a href="#diaristas">Diaristas</a></li>
+                            <li><a href="#maquinario">Maquinário</a></li>
+
+                        </ul>
+
+                    </li>
+
+                    <li>
+                        <a href="#relatorios">Relatórios</a>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+            <footer class="sidebar-footer">
+                <p>Caixa de Obra © 2026</p>
+                <small>Versão 1.0</small>
+            </footer>
+
+        </aside>
+
+        <!-- Fundo para fechar o menu no mobile -->
+        <button class="overlay-menu" id="fechar-menu" type="button" aria-label="Fechar menu"></button>
+
+
+        <!-- =========================================
+             ÁREA PRINCIPAL
+        ========================================== -->
+        <div class="conteudo">
+
+            <header class="topbar">
+
+                <button class="menu-mobile" id="menu-toggle" type="button" aria-label="Abrir menu"
+                    aria-controls="menu-lateral" aria-expanded="false">
+                    ☰
+                </button>
+
+                <div class="topbar-titulo">
+                    <h2>Painel de Controle</h2>
+                    <p>Visão geral da gestão financeira</p>
+                </div>
+
+                <div class="usuario">
+                    <span>Administrador</span>
+                </div>
+
+            </header>
+
+            <main>
+
+                <!-- =========================================
+                     PAINEL: INDICADORES FINANCEIROS
+                ========================================== -->
+                <section id="painel" aria-labelledby="titulo-painel">
+
+                    <header class="titulo-secao">
+                        <h2 id="titulo-painel">Resumo Financeiro</h2>
+                        <p>Acompanhamento geral das obras</p>
+                    </header>
+
+                    <div class="cards">
+
+                        <article class="card entrada">
+                            <span>Total de Entradas</span>
+                            <h3 id="total-entradas">R$ 0,00</h3>
+                            <small>Receitas registradas</small>
+                        </article>
+
+                        <article class="card saida">
+                            <span>Total de Saídas</span>
+                            <h3 id="total-saidas">R$ 0,00</h3>
+                            <small>Despesas registradas</small>
+                        </article>
+
+                        <article class="card saldo">
+                            <span>Saldo Disponível</span>
+                            <h3 id="saldo-disponivel">R$ 0,00</h3>
+                            <small>Resultado financeiro</small>
+                        </article>
+
+                        <article class="card obras">
+                            <span>Obras Ativas</span>
+                            <h3 id="total-obras-ativas">0</h3>
+                            <small>Projetos em andamento</small>
+                        </article>
+
+                    </div>
+
+
+                    <!-- Indicadores Operacionais -->
+                    <div class="cards cards-operacionais">
+
+                        <article class="card contratos">
+                            <span>Contratos Ativos</span>
+                            <h3 id="total-contratos-ativos">0</h3>
+                            <small>Contratos em andamento</small>
+                        </article>
+
+                        <article class="card diaristas">
+                            <span>Diárias Pendentes</span>
+                            <h3 id="total-diarias-pendentes">0</h3>
+                            <small>Serviços aguardando pagamento</small>
+                        </article>
+
+                        <article class="card maquinario">
+                            <span>Equipamentos Alugados</span>
+                            <h3 id="total-equipamentos-alugados">0</h3>
+                            <small>Locações em andamento</small>
+                        </article>
+
+                        <article class="card pendencias">
+                            <span>Saldo Pendente de Maquinário</span>
+                            <h3 id="saldo-pendente-maquinario">R$ 0,00</h3>
+                            <small>Valores ainda não pagos</small>
+                        </article>
+
+                    </div>
+
+
+                    
+
+
+                </section>
+
+
+                <!-- =========================================
+                     MÓDULO: CLIENTES
+                ========================================== -->
+                <section id="clientes" class="secao" aria-labelledby="titulo-clientes">
+
+                    <header class="secao-cabecalho">
+                        <h2 id="titulo-clientes">Clientes cadastrados</h2>
+                        <p>Gerenciamento de clientes da empresa</p>
+                    </header>
+
+                    <form id="form-cliente" class="formulario">
+
+                        <h3>Cadastrar novo cliente</h3>
+
+                        <label for="cliente-nome">Nome do cliente</label>
+                        <input type="text" id="cliente-nome" name="nome" autocomplete="off" required>
+
+                        <label for="cliente-documento">CPF/CNPJ</label>
+                        <input type="text" id="cliente-documento" name="documento" inputmode="numeric"
+                            autocomplete="off" required>
+
+                        <label for="cliente-telefone">Telefone</label>
+                        <input type="tel" id="cliente-telefone" name="telefone" autocomplete="off">
+
+                        <label for="cliente-email">E-mail</label>
+                        <input type="email" id="cliente-email" name="email" autocomplete="off">
+
+                        <label for="cliente-endereco">Endereço</label>
+                        <input type="text" id="cliente-endereco" name="endereco" autocomplete="off">
+
+                        <button type="submit">Cadastrar cliente</button>
+
+                    </form>
+
+                    <div id="lista-clientes" class="lista-clientes" aria-live="polite">
+                        <!-- Clientes inseridos pelo JavaScript -->
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     MÓDULO: OBRAS
+                ========================================== -->
+                <section id="obras" class="secao" aria-labelledby="titulo-obras">
+
+                    <header class="secao-cabecalho">
+                        <h2 id="titulo-obras">Obras cadastradas</h2>
+                        <p>Gerenciamento das obras da empresa</p>
+                    </header>
+
+                    <form id="form-obra" class="formulario">
+
+                        <h3>Cadastrar nova obra</h3>
+
+                        <label for="obra-nome">Nome da obra</label>
+                        <input type="text" id="obra-nome" name="nome" placeholder="Ex.: Reforma da Escola Municipal"
+                            required>
+
+                        <label for="obra-cliente">Cliente responsável</label>
+                        <select id="obra-cliente" name="cliente" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+
+                        <label for="obra-status">Status da obra</label>
+                        <select id="obra-status" name="status" required>
+                            <option value="Em andamento">Em andamento</option>
+                            <option value="Concluída">Concluída</option>
+                            <option value="Suspensa">Suspensa</option>
+                        </select>
+
+                        <button type="submit">Cadastrar obra</button>
+
+                    </form>
+
+                    <div id="lista-obras" class="lista-obras" aria-live="polite">
+                        <!-- Obras inseridas pelo JavaScript -->
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     MÓDULO: CONTRATOS
+                ========================================== -->
+                <section id="contratos" class="secao" aria-labelledby="titulo-contratos">
+
+                    <header class="secao-cabecalho">
+                        <h2 id="titulo-contratos">Contratos cadastrados</h2>
+                        <p>Gerenciamento dos contratos da empresa</p>
+                    </header>
+
+                    <form id="form-contrato" class="formulario">
+
+                        <h3>Cadastrar novo contrato</h3>
+
+                        <label for="contrato-numero">Número do contrato</label>
+                        <input type="text" id="contrato-numero" name="numero" placeholder="Ex.: CT-2026-001"
+                            autocomplete="off" required>
+
+                        <label for="contrato-cliente">Cliente responsável</label>
+                        <select id="contrato-cliente" name="cliente" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+
+                        <label for="contrato-obra">Obra vinculada</label>
+                        <select id="contrato-obra" name="obra" required disabled>
+                            <option value="">Selecione primeiro um cliente</option>
+                        </select>
+
+                        <label for="contrato-descricao">Objeto do contrato</label>
+                        <textarea id="contrato-descricao" name="descricao" placeholder="Descreva o objeto do contrato"
+                            required></textarea>
+
+                        <label for="contrato-assinatura">Data de assinatura</label>
+                        <input type="date" id="contrato-assinatura" name="assinatura" required>
+
+                        <label for="contrato-inicio">Início da vigência</label>
+                        <input type="date" id="contrato-inicio" name="inicio" required>
+
+                        <label for="contrato-fim">Fim da vigência</label>
+                        <input type="date" id="contrato-fim" name="fim" required>
+
+                        <label for="contrato-valor">Valor contratado (R$)</label>
+                        <input type="number" id="contrato-valor" name="valor" min="0.01" step="0.01" inputmode="decimal"
+                            placeholder="Ex.: 150000.00" required>
+
+                        <label for="contrato-status">Status do contrato</label>
+                        <select id="contrato-status" name="status" required>
+                            <option value="Vigente">Vigente</option>
+                            <option value="Suspenso">Suspenso</option>
+                            <option value="Encerrado">Encerrado</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+
+                        <label for="contrato-observacoes">Observações</label>
+                        <textarea id="contrato-observacoes" name="observacoes"
+                            placeholder="Informações adicionais"></textarea>
+
+                        <button type="submit">Cadastrar contrato</button>
+
+                    </form>
+
+                    <div id="resumo-contratos" class="resumo-contratos" aria-live="polite"></div>
+
+                    <div id="lista-contratos" class="lista-clientes" aria-live="polite">
+                        <!-- Contratos inseridos pelo JavaScript -->
+                    </div>
+
+                </section>
+
+
+                <!-- =========================================
+                     MÓDULO: MOVIMENTAÇÕES FINANCEIRAS
+                ========================================== -->
+                <section id="movimentacoes" class="secao" aria-labelledby="titulo-movimentacoes">
+
+                    <header class="secao-cabecalho">
+                        <h2 id="titulo-movimentacoes">Movimentações Financeiras</h2>
+                        <p class="descricao-secao">
+                            Controle as entradas e saídas financeiras de cada obra.
+                        </p>
+                    </header>
+
+
+                    <!-- Filtros do resumo financeiro -->
+                    
+
+                    
+
+                    <!-- Resumo financeiro -->
+                    <div id="resumo-financeiro" aria-live="polite">
+
+                        <div class="resumo-card resumo-total">
+                            <p>Total de entradas</p>
+                            <strong id="resumo-total-entradas">R$ 0,00</strong>
+                        </div>
+
+                        <div class="resumo-card resumo-vencido">
+                            <p>Total de saídas</p>
+                            <strong id="resumo-total-saidas">R$ 0,00</strong>
+                        </div>
+
+                        <div class="resumo-card resumo-vigente">
+                            <p>Saldo atual</p>
+                            <strong id="saldo-atual">R$ 0,00</strong>
+                        </div>
+
+                        <div class="resumo-card resumo-vigente">
+                            <p>Despesas operacionais</p>
+                            <strong id="total-operacionais">R$ 0,00</strong>
+                        </div>
+
+                        <div class="resumo-card resumo-vigente">
+                            <p>Despesas administrativas</p>
+                            <strong id="total-administrativas">R$ 0,00</strong>
+                        </div>
+
+                        <div class="resumo-card resumo-total">
+                            <p>Resultado das obras</p>
+                            <strong id="resultado-obras">R$ 0,00</strong>
+                        </div>
+
+                    </div>
+
+                    <!-- Resultado financeiro individual por obra -->
+                    <div class="resultado-obras-container">
+
+                        <h3>Desempenho financeiro por obra</h3>
+
+                        <div id="lista-resultados-obras" aria-live="polite">
+                            Nenhum resultado financeiro disponível.
+                        </div>
+
+                    </div>
+
+
+                    <!-- Formulário de lançamentos -->
+                    <form id="form-movimentacao" class="formulario">
+
+                        <h3>Registrar movimentação</h3>
+
+                        <label for="movimentacao-tipo">Tipo de movimentação</label>
+                        <select id="movimentacao-tipo" name="tipo" required>
+                            <option value="">Selecione</option>
+                            <option value="entrada">Entrada</option>
+                            <option value="saida">Saída</option>
+                        </select>
+
+                        <label for="movimentacao-data">Data</label>
+                        <input type="date" id="movimentacao-data" name="data" required>
+
+
+                        <!-- Classificação da despesa -->
+                        <div id="grupo-tipo-despesa" hidden>
+
+                            <label for="movimentacao-tipo-despesa">
+                                Classificação da despesa
+                            </label>
+
+                            <select id="movimentacao-tipo-despesa" name="tipoDespesa">
+                                <option value="">Selecione</option>
+                                <option value="operacional">Operacional (vinculada à obra)</option>
+                                <option value="administrativa">Administrativa (empresa)</option>
+                            </select>
+
+                        </div>
+
+
+                        <label for="movimentacao-cliente">Cliente</label>
+                        <select id="movimentacao-cliente" name="cliente">
+                            <option value="">Selecione um cliente</option>
+                        </select>
+
+                        <label for="movimentacao-obra">Obra</label>
+                        <select id="movimentacao-obra" name="obra">
+                            <option value="">Selecione primeiro um cliente</option>
+                        </select>
+
+                        <label for="movimentacao-descricao">Descrição</label>
+                        <input type="text" id="movimentacao-descricao" name="descricao"
+                            placeholder="Ex.: Compra de cimento" autocomplete="off" required>
+
+                        <label for="movimentacao-categoria">Categoria</label>
+                        <select id="movimentacao-categoria" name="categoria" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="materiais">Materiais</option>
+                            <option value="mao-de-obra">Mão de obra</option>
+                            <option value="maquinario">Aluguel de maquinário</option>
+                            <option value="fornecedores">Fornecedores</option>
+                            <option value="medicoes">Medições recebidas</option>
+                            <option value="outros">Outros</option>
+                        </select>
+
+                        <label for="movimentacao-fornecedor">Fornecedor / Pagador</label>
+                        <input type="text" id="movimentacao-fornecedor" name="fornecedor"
+                            placeholder="Nome do fornecedor ou pagador" autocomplete="off">
+
+                        <label for="movimentacao-valor">Valor (R$)</label>
+                        <input type="number" id="movimentacao-valor" name="valor" min="0.01" step="0.01"
+                            inputmode="decimal" placeholder="0,00" required>
+
+                        <label for="movimentacao-pagamento">Forma de pagamento</label>
+                        <select id="movimentacao-pagamento" name="pagamento" required>
+                            <option value="">Selecione</option>
+                            <option value="pix">PIX</option>
+                            <option value="transferencia">Transferência</option>
+                            <option value="boleto">Boleto</option>
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao">Cartão</option>
+                            <option value="outros">Outros</option>
+                        </select>
+
+                        <label for="movimentacao-documento">Documento / Comprovante</label>
+                        <input type="text" id="movimentacao-documento" name="documento"
+                            placeholder="Número da nota ou comprovante" autocomplete="off">
+
+                        <button type="submit">Registrar movimentação</button>
+
+                    </form>
+
+                    <!-- Listagem -->
+                    <div class="lista-movimentacoes">
+
+                        <h3>Histórico de movimentações</h3>
+
+                        <div id="lista-movimentacoes" aria-live="polite">
+                            Nenhuma movimentação cadastrada.
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- =========================================
+                MÓDULO: DIARISTAS
+                ========================================== -->
+                <section id="diaristas" class="secao" aria-labelledby="titulo-diaristas">
+
+                    <header class="secao-cabecalho">
+                        <h2 id="titulo-diaristas">Gestão de Diaristas</h2>
+                        <p>Cadastro e gerenciamento dos profissionais da empresa</p>
+                    </header>
+
+                    <form id="form-diarista" class="formulario">
+
+                        <h3>Cadastrar novo diarista</h3>
+
+                        <label for="diarista-nome">Nome completo</label>
+                        <input type="text" id="diarista-nome" name="nome" autocomplete="off" required>
+
+                        <label for="diarista-telefone">Telefone</label>
+                        <input type="tel" id="diarista-telefone" name="telefone" autocomplete="off">
+
+                        <label for="diarista-funcao">Função / Especialidade</label>
+                        <input type="text" id="diarista-funcao" name="funcao"
+                            placeholder="Ex.: Pedreiro, servente, pintor" required>
+
+                        <label for="diarista-valor">Valor padrão da diária (R$)</label>
+                        <input type="number" id="diarista-valor" name="valorDiaria" min="0.01" step="0.01"
+                            inputmode="decimal" required>
+
+                        <label for="diarista-status">Situação</label>
+                        <select id="diarista-status" name="status" required>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+
+                        <button type="submit">Cadastrar diarista</button>
+
+                    </form>
+
+                    <!-- LANÇAMENTO DE DIÁRIAS -->
+                    <form id="form-lancamento-diaria" class="formulario">
+
+                        <h3>Registrar diária de trabalho</h3>
+
+                        <label for="diaria-diarista">Diarista</label>
+                        <select id="diaria-diarista" name="diarista" required>
+                            <option value="">Selecione um diarista</option>
+                        </select>
+
+                        <label for="diaria-cliente">Cliente</label>
+                        <select id="diaria-cliente" name="cliente" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+
+                        <label for="diaria-obra">Obra</label>
+                        <select id="diaria-obra" name="obra" required disabled>
+                            <option value="">Selecione primeiro um cliente</option>
+                        </select>
+
+                        <label for="diaria-data">Data do serviço</label>
+                        <input type="date" id="diaria-data" name="data" required>
+
+                        <label for="diaria-quantidade">Quantidade de diárias</label>
+                        <input type="number" id="diaria-quantidade" name="quantidade" min="0.5" step="0.5" value="1"
+                            required>
+
+                        <label for="diaria-valor">Valor por diária (R$)</label>
+                        <input type="number" id="diaria-valor" name="valor" min="0.01" step="0.01" inputmode="decimal"
+                            required>
+
+                        <label for="diaria-total">Valor total (R$)</label>
+                        <input type="number" id="diaria-total" name="total" step="0.01" readonly>
+
+                        <label for="diaria-status">Situação do pagamento</label>
+                        <select id="diaria-status" name="status" required>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Pago">Pago</option>
+                        </select>
+
+                        <label for="diaria-data-pagamento">Data do pagamento</label>
+                        <input type="date" id="diaria-data-pagamento" name="dataPagamento">
+
+                        <label for="diaria-pagamento">Forma de pagamento</label>
+                        <select id="diaria-pagamento" name="pagamento">
+                            <option value="">Selecione</option>
+                            <option value="pix">PIX</option>
+                            <option value="transferencia">Transferência</option>
+                            <option value="boleto">Boleto</option>
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao">Cartão</option>
+                            <option value="outros">Outros</option>
+                        </select>
+
+                        <label for="diaria-observacoes">Observações</label>
+                        <textarea id="diaria-observacoes" name="observacoes"
+                            placeholder="Informações adicionais sobre o serviço"></textarea>
+
+                        <button type="submit">Registrar diária</button>
+
+                    </form>
+
+                    <div id="lista-diarias" class="lista-clientes" aria-live="polite">
+                        <!-- Lançamentos de diárias inseridos pelo JavaScript -->
+                    </div>
+
+                    <div id="lista-diaristas" class="lista-clientes" aria-live="polite">
+                        <!-- Diaristas inseridos pelo JavaScript -->
+                    </div>
+
+
+                </section>
+
+
+                <!-- =========================================
+                     MÓDULO: MAQUINÁRIO ALUGADO
+                ========================================== -->
+                <section id="maquinario" class="secao" aria-labelledby="titulo-maquinario">
+
+                    <header class="secao-cabecalho">
+                        <h2 id="titulo-maquinario">Gestão de Maquinário</h2>
+                        <p>Controle de equipamentos alugados pela empresa</p>
+                    </header>
+
+                    <!-- CADASTRO DE LOCAÇÕES -->
+                    <form id="form-maquinario" class="formulario">
+
+                        <h3>Cadastrar equipamento alugado</h3>
+
+                        <label for="maquinario-equipamento">Nome do equipamento</label>
+                        <input
+                            type="text"
+                            id="maquinario-equipamento"
+                            name="equipamento"
+                            placeholder="Ex.: Martelete pneumático"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <label for="maquinario-locadora">Empresa locadora</label>
+                        <input
+                            type="text"
+                            id="maquinario-locadora"
+                            name="locadora"
+                            placeholder="Nome da empresa responsável pela locação"
+                            autocomplete="off"
+                            required
+                        >
+
+                        <label for="maquinario-identificacao">Identificação / Modelo</label>
+                        <input
+                            type="text"
+                            id="maquinario-identificacao"
+                            name="identificacao"
+                            placeholder="Modelo, número ou identificação do equipamento"
+                            autocomplete="off"
+                        >
+
+                        <label for="maquinario-cliente">Cliente</label>
+                        <select id="maquinario-cliente" name="cliente" required>
+                            <option value="">Selecione um cliente</option>
+                        </select>
+
+                        <label for="maquinario-obra">Obra vinculada</label>
+                        <select id="maquinario-obra" name="obra" required disabled>
+                            <option value="">Selecione primeiro um cliente</option>
+                        </select>
+
+                        <label for="maquinario-inicio">Data de início da locação</label>
+                        <input
+                            type="date"
+                            id="maquinario-inicio"
+                            name="inicio"
+                            required
+                        >
+
+                        <label for="maquinario-devolucao">Previsão de devolução</label>
+                        <input
+                            type="date"
+                            id="maquinario-devolucao"
+                            name="devolucao"
+                            required
+                        >
+
+                        <label for="maquinario-tipo-cobranca">Tipo de cobrança</label>
+                        <select id="maquinario-tipo-cobranca" name="tipoCobranca" required>
+                            <option value="">Selecione</option>
+                            <option value="diaria">Diária</option>
+                            <option value="mensal">Mensal</option>
+                        </select>
+
+                        <label for="maquinario-valor">Valor da locação (R$)</label>
+                        <input
+                            type="number"
+                            id="maquinario-valor"
+                            name="valor"
+                            min="0.01"
+                            step="0.01"
+                            inputmode="decimal"
+                            placeholder="0,00"
+                            required
+                        >
+
+                        <label for="maquinario-observacoes">Observações</label>
+                        <textarea
+                            id="maquinario-observacoes"
+                            name="observacoes"
+                            placeholder="Informações adicionais sobre a locação"
+                        ></textarea>
+
+                        <button type="submit">Cadastrar locação</button>
+
+                    </form>
+
+                    <!-- LISTAGEM DAS LOCAÇÕES -->
+                    <div id="lista-maquinario" class="lista-clientes" aria-live="polite">
+                        <!-- Locações inseridas pelo JavaScript -->
+                    </div>
+
+                    <!-- =========================================
+                         REGISTRO DE PAGAMENTOS DE MAQUINÁRIO
+                    ========================================== -->
+
+                    <form id="form-pagamento-maquinario" class="formulario">
+
+                        <h3>Registrar pagamento de locação</h3>
+
+                        <label for="pagamento-maquinario-locacao">
+                            Equipamento alugado
+                        </label>
+
+                        <select id="pagamento-maquinario-locacao" required>
+                            <option value="">Selecione uma locação</option>
+                        </select>
+
+                        <label for="pagamento-maquinario-data">
+                            Data do pagamento
+                        </label>
+
+                        <input
+                            type="date"
+                            id="pagamento-maquinario-data"
+                            required
+                        >
+
+                        <label for="pagamento-maquinario-valor">
+                            Valor pago (R$)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="pagamento-maquinario-valor"
+                            min="0.01"
+                            step="0.01"
+                            inputmode="decimal"
+                            placeholder="0,00"
+                            required
+                        >
+
+                        <label for="pagamento-maquinario-forma">
+                            Forma de pagamento
+                        </label>
+
+                        <select id="pagamento-maquinario-forma" required>
+                            <option value="">Selecione</option>
+                            <option value="pix">PIX</option>
+                            <option value="transferencia">Transferência</option>
+                            <option value="boleto">Boleto</option>
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao">Cartão</option>
+                            <option value="outros">Outros</option>
+                        </select>
+
+                        <label for="pagamento-maquinario-documento">
+                            Documento / Comprovante
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pagamento-maquinario-documento"
+                            placeholder="Número da nota ou comprovante"
+                            autocomplete="off"
+                        >
+
+                        <label for="pagamento-maquinario-observacoes">
+                            Observações
+                        </label>
+
+                        <textarea
+                            id="pagamento-maquinario-observacoes"
+                            placeholder="Informações adicionais sobre o pagamento"
+                        ></textarea>
+
+                        <button type="submit">Registrar pagamento</button>
+
+                    </form>
+
+                </section>
+
+                <!-- =========================================
+     MÓDULO: RELATÓRIOS
+========================================== -->
+<section id="relatorios" class="secao"
+    aria-labelledby="titulo-relatorios">
+
+    <header class="secao-cabecalho">
+        <h2 id="titulo-relatorios">Relatórios e Análises</h2>
+<p class="descricao-secao">
+    Acompanhe o desempenho financeiro e gere relatórios gerenciais da empresa.
+</p>
+    </header>
+
+    <div class="filtros-financeiros">
+
+                        <div class="filtro-periodo">
+                            <label for="filtro-periodo">Período de consulta</label>
+
+                            <select id="filtro-periodo">
+                                <option value="todos">Todo o período</option>
+                                <option value="mes">Este mês</option>
+                                <option value="trimestre">Últimos 3 meses</option>
+                                <option value="semestre">Últimos 6 meses</option>
+                                <option value="ano">Este ano</option>
+                                <option value="personalizado">Personalizado</option>
+                            </select>
+                        </div>
+
+                        <div class="filtro-data">
+                            <label for="filtro-data-inicio">Data inicial</label>
+                            <input type="date" id="filtro-data-inicio" disabled>
+                        </div>
+
+                        <div class="filtro-data">
+                            <label for="filtro-data-fim">Data final</label>
+                            <input type="date" id="filtro-data-fim" disabled>
+                        </div>
+
+                        <div class="botoes-filtro">
+                            <button type="button" id="btn-aplicar-filtro">
+                                Aplicar filtro
+                            </button>
+
+                            <button type="button" id="btn-limpar-filtro">
+                                Limpar
+                            </button>
+                        </div>
+
+                        <div class="botoes-relatorio">
+                            <button type="button" id="btn-gerar-relatorio">
+                                <span>📄</span> Gerar relatório
+                            </button>
+                        </div>
+
+                        
+                    </div>
+
+                    <!-- Gráficos do Dashboard -->
+                    <div class="dashboard-graficos">
+
+                        <article class="grafico-card">
+                            <header class="grafico-header">
+                                <div>
+                                    <h3>Entradas x Saídas</h3>
+                                    <p>Desempenho financeiro mensal</p>
+                                </div>
+                            </header>
+
+                            <div class="grafico-container">
+                                <canvas id="grafico-entradas-saidas"></canvas>
+                            </div>
+                        </article>
+
+
+                        <article class="grafico-card">
+
+                            <header class="grafico-header">
+                                <div>
+                                    <h3>Despesas por Categoria</h3>
+                                    <p>Distribuição dos gastos da empresa</p>
+                                </div>
+                            </header>
+
+                            <div class="grafico-container">
+                                <canvas id="grafico-despesas-categoria"></canvas>
+                            </div>
+
+                        </article>
+
+
+                        <article class="grafico-card">
+                            <header class="grafico-header">
+                                <div>
+                                    <h3>Resultado Financeiro por Obra</h3>
+                                    <p>Comparativo de entradas, despesas e resultados</p>
+                                </div>
+                            </header>
+
+                            <div class="grafico-container">
+                                <canvas id="grafico-resultado-obras"></canvas>
+                            </div>
+                        </article>
+
+                    </div>
+
+<!-- ÁREA DO RELATÓRIO FINANCEIRO -->
+                    <section id="area-relatorio" hidden>
+
+                        <header class="relatorio-cabecalho">
+
+                            <!-- <img
+        src="./assets/logo-pwr-1.png"
+        alt="Logo da PWR Construtora"
+        class="relatorio-logo"
+    > -->
+
+                            <h1>PWR CONSTRUTORA</h1>
+
+                            <h2>Relatório Financeiro</h2>
+
+                            <p>Caixa de Obra | Gestão Inteligente</p>
+
+                            <p id="relatorio-periodo"></p>
+                            <p id="relatorio-emissao"></p>
+
+                            <button type="button" id="btn-imprimir-relatorio">
+                                Imprimir / Salvar PDF
+                            </button>
+                        </header>
+
+                        <div class="relatorio-indicadores">
+
+                            <div>
+                                <span>Total de entradas</span>
+                                <strong id="relatorio-entradas">R$ 0,00</strong>
+                            </div>
+
+                            <div>
+                                <span>Total de saídas</span>
+                                <strong id="relatorio-saidas">R$ 0,00</strong>
+                            </div>
+
+                            <div>
+                                <span>Saldo atual</span>
+                                <strong id="relatorio-saldo">R$ 0,00</strong>
+                            </div>
+
+                            <div>
+                                <span>Despesas operacionais</span>
+                                <strong id="relatorio-operacionais">R$ 0,00</strong>
+                            </div>
+
+                            <div>
+                                <span>Despesas administrativas</span>
+                                <strong id="relatorio-administrativas">R$ 0,00</strong>
+                            </div>
+
+                            <div>
+                                <span>Resultado das obras</span>
+                                <strong id="relatorio-resultado-obras">R$ 0,00</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="relatorio-detalhamento">
+                            <h3>Desempenho financeiro por obra</h3>
+
+                            <div id="relatorio-lista-obras">
+                                Nenhum resultado disponível.
+                            </div>
+                        </div>
+
+                        <footer class="relatorio-rodape">
+                            <p>PWR CONSTRUTORA</p>
+                            <p>Documento interno de gestão financeira.</p>
+                            <p>Relatório gerado pelo sistema Caixa de Obra.</p>
+                        </footer>
+
+                    </section>
+
+</section>
+
+
+                
+
+                <!-- =========================================
+                     ATIVIDADES RECENTES
+                ========================================== -->
+                <section class="atividades" aria-labelledby="titulo-atividades">
+
+                    <h2 id="titulo-atividades">Atividades Recentes</h2>
+
+                    <p>Nenhuma movimentação registrada.</p>
+
+                </section>
+
+            </main>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

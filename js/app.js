@@ -101,8 +101,7 @@ function renderizarClientes() {
             clientes.splice(indice, 1);
             salvarClientes();
 
-            renderizarClientes();
-            carregarClientesNoSelect();
+            atualizarTelaClientesEObras();
 
             alert("Cliente excluído com sucesso!");
         });
@@ -504,11 +503,7 @@ formCliente.addEventListener("submit", (evento) => {
     clientes.push(novoCliente);
     salvarClientes();
 
-    // Atualiza a listagem
-    renderizarClientes();
-
-    // Atualiza a lista de clientes no formulário de obras
-    carregarClientesNoSelect();
+    atualizarTelaClientesEObras();
 
     // Limpa o formulário
     formCliente.reset();
@@ -3844,8 +3839,7 @@ function renderizarObras() {
                 obra.dataCancelamento = new Date().toISOString();
                 salvarObras();
 
-                renderizarObras();
-                renderizarClientes();
+                atualizarTelaClientesEObras();
 
                 alert("Obra cancelada com sucesso!");
             });
@@ -3860,6 +3854,13 @@ function renderizarObras() {
 
         listaObras.appendChild(cartao);
     });
+}
+
+
+function atualizarTelaClientesEObras() {
+    renderizarClientes();
+    renderizarObras();
+    carregarClientesNoSelect();
 }
 
 
@@ -3904,9 +3905,7 @@ formObra.addEventListener("submit", (evento) => {
     obras.push(novaObra);
     salvarObras();
 
-    // Atualiza as duas listagens
-    renderizarObras();
-    renderizarClientes();
+    atualizarTelaClientesEObras();
 
     formObra.reset();
 

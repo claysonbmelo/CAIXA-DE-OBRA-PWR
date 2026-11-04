@@ -167,6 +167,26 @@ function renderizarDiaristas() {
     });
 }
 
+// Carrega os diaristas cadastrados no campo de seleção de diárias
+function carregarDiaristasNoSelect() {
+    const selectDiarista = document.getElementById("diaria-diarista");
+
+    if (!selectDiarista) return;
+
+    selectDiarista.innerHTML = '<option value="">Selecione um diarista</option>';
+
+    diaristas
+        .filter((diarista) => diarista.status === "Ativo")
+        .forEach((diarista) => {
+            const opcao = document.createElement("option");
+
+            opcao.value = diarista.id;
+            opcao.textContent = `${diarista.nome} - ${diarista.funcao}`;
+
+            selectDiarista.appendChild(opcao);
+        });
+}
+
 // RENDERIZAR LANÇAMENTOS DE DIÁRIAS
 function renderizarDiarias() {
     const listaDiarias = document.getElementById("lista-diarias");
@@ -346,25 +366,6 @@ renderizarDiarias();
 
     alert("Diária registrada com sucesso!");
 });
-
-// CARREGAR DIARISTAS ATIVOS NO SELECT
-function carregarDiaristasNoSelect() {
-    const campoDiarista = document.getElementById("diaria-diarista");
-
-    campoDiarista.innerHTML = '<option value="">Selecione um diarista</option>';
-
-    diaristas
-        .filter((diarista) => diarista.status === "Ativo")
-        .forEach((diarista) => {
-            const option = document.createElement("option");
-
-            option.value = diarista.id;
-            option.textContent = diarista.nome;
-
-            campoDiarista.appendChild(option);
-        });
-}
-
 
 // CARREGAR CLIENTES NO SELECT DE DIÁRIAS
 function carregarClientesNoSelectDiarias() {
@@ -546,11 +547,6 @@ if (diaristaExistente) {
     return;
 }
 
-    if (diaristaExistente) {
-        alert("Este diarista já está cadastrado.");
-        return;
-    }
-
     // Valida o valor da diária
     if (!Number.isFinite(valorDiaria) || valorDiaria <= 0) {
         alert("Informe um valor válido para a diária.");
@@ -575,6 +571,7 @@ if (diaristaExistente) {
 
     // Atualiza a listagem
     renderizarDiaristas();
+    carregarDiaristasNoSelect();
 
     // Limpa o formulário
     formDiarista.reset();
@@ -583,21 +580,35 @@ if (diaristaExistente) {
 });
 
 
+
 function carregarClientesNoSelect() {
-    const selectCliente = document.getElementById("obra-cliente");
 
-    // Mantém apenas a opção inicial
-    selectCliente.innerHTML = '<option value="">Selecione um cliente</option>';
+    // Campos de seleção de clientes
+    const selectObra = document.getElementById("obra-cliente");
+    const selectContrato = document.getElementById("contrato-cliente");
 
-    clientes.forEach((cliente) => {
-        const opcao = document.createElement("option");
+    // Atualiza os dois campos
+    const selects = [selectObra, selectContrato];
 
-        opcao.value = cliente.id;
-        opcao.textContent = cliente.nome;
+    selects.forEach((select) => {
 
-        selectCliente.appendChild(opcao);
+        if (!select) return;
+
+        // Mantém a opção inicial
+        select.innerHTML = '<option value="">Selecione um cliente</option>';
+
+        clientes.forEach((cliente) => {
+
+            const opcao = document.createElement("option");
+
+            opcao.value = cliente.id;
+            opcao.textContent = cliente.nome;
+
+            select.appendChild(opcao);
+        });
     });
 }
+
 
 function carregarClientesNoSelectContratos() {
 
@@ -3987,6 +3998,8 @@ carregarLocacoesNoSelectPagamentoMaquinario();
 renderizarDiaristas();
 
 renderizarDiarias();
+
+carregarDiaristasNoSelect();
 
 renderizarResumoContratos();
 

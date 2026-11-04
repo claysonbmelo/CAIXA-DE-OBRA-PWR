@@ -1,4 +1,3 @@
-
 /* =========================================
    DADOS DO SISTEMA
    Persistência temporária com localStorage
